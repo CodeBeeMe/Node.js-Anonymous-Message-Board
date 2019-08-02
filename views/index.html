@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>FCC ISQA Projects - 05. Anonymous Message Board</title>
+    <meta name="description" content="A cool thing made with HyperDev">
+    <link id="favicon" rel="icon" href="https://hyperdev.com/favicon-app.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous" type="text/css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Raleway|Roboto" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="./public/main-style.css" type="text/css">
+</head>
+
+<body>
+    <div id="title">
+        <h6>Information Security and Quality Assurance Projects:</h6>
+
+        <h1>05. Anonymous Message Board</h1>
+    </div><br>
+
+    <div class="container">
+        <div id="content">
+            <div class="section">
+                <div id="userstories">
+                    <h2>User Stories</h2>
+                    <ol class="user-stories">
+                        <li>Only allow your site to be loading in an iFrame on your own pages.</li>
+                        <li>Do not allow DNS prefetching.</li>
+                        <li>Only allow your site to send the referrer for your own pages.</li>
+                        <li>I can <b>POST</b> a thread to a specific message board by passing form data <code>text</code> and <code>delete_password</code> to <i>/api/threads/{board}</i>. (Recomend res.redirect to board page /b/{board}) Saved will be <code>_id</code>, <code>text</code>, <code>created_on</code>(date&amp;time), <code>bumped_on</code>(date&amp;time, starts same as created_on), <code>reported</code>(boolean), <code>delete_password</code>, &amp; <code>replies</code>(array).</li>
+                        <li>I can <b>POST</b> a reply to a thread on a specific board by passing form data <code>text</code>, <code>delete_password</code>, &amp; <code>thread_id</code> to <i>/api/replies/{board}</i> and it will also update the bumped_on date to the comments date. (Recomend res.redirect to thread page /b/{board}/{thread_id}) In the thread's 'replies' array will be saved <code>_id</code>, <code>text</code>, <code>created_on</code>, <code>delete_password</code>, &amp; <code>reported</code>.</li>
+                        <li>I can <b>GET</b> an array of the most recent 10 bumped threads on the board with only the most recent 3 replies from <i>/api/threads/{board}</i>. The <code>reported</code> and <code>delete_passwords</code> fields will not be sent.</li>
+                        <li>I can <b>GET</b> an entire thread with all it's replies from <i>/api/replies/{board}?thread_id={thread_id}</i>. Also hiding the same fields.</li>
+                        <li>I can delete a thread completely if I send a <b>DELETE</b> request to <i>/api/threads/{board}</i> and pass along the <code>thread_id</code> &amp; <code>delete_password</code>. (Text response will be 'incorrect password' or 'success')</li>
+                        <li>I can delete a post(just changing the text to '[deleted]') if I send a <b>DELETE</b> request to <i>/api/replies/{board}</i> and pass along the <code>thread_id</code>, <code>reply_id</code>, &amp; <code>delete_password</code>. (Text response will be 'incorrect password' or 'success')</li>
+                        <li>I can report a thread and change it's reported value to true by sending a <b>PUT</b> request to <i>/api/threads/{board}</i> and pass along the <code>thread_id</code>. (Text response will be 'success')</li>
+                        <li>I can report a reply and change it's reported value to true by sending a <b>PUT</b> request to <i>/api/replies/{board}</i> and pass along the <code>thread_id</code> &amp; <code>reply_id</code>. (Text response will be 'success')</li>
+                        <li>Complete functional tests that wholely test routes and pass.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>API Methods:</h2>
+
+                <div id="apinfo">
+                    <table id="apimethods">
+                        <thead>
+                            <tr>
+                                <th style="border-radius: 3px 0 0 0">API</th>
+                                <th>GET</th>
+                                <th>POST</th>
+                                <th>PUT</th>
+                                <th style="color: #ff8c8c; border-radius: 0 3px 0 0">DELETE</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td style="background: rgba(0, 0, 0, .1)"><code><b>/api/threads/{board}</b></code></td>
+                                <td>list recent threads</td>
+                                <td>create thread</td>
+                                <td>report thread</td>
+                                <td>delete thread with password</td>
+                            </tr>
+
+                            <tr>
+                                <td style="background: rgba(0, 0, 0, .1)"><code><b>/api/replies/{board}</b></code></td>
+                                <td>show all replies on thread</td>
+                                <td>create reply on thread</td>
+                                <td>report reply on thread</td>
+                                <td>change reply to '[deleted]' on thread</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+          
+          <div class="section status">
+          <div id="responseUi">
+            <div class="output">
+              <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="spinner" role="img" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512" class="svg-inline--fa fa-spinner fa-w-16 fa-spin fa-lg"><path fill="currentColor" d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z" class=""></path></svg>
+              <span>&#xa0; &#xa0;</span>
+              <code id="jsonResult"></code>
+            </div> 
+          </div>
+        </div>
+
+            <div class="section">
+                <h2 id="apiTest">All the threads entries in <i>general</i> board: go to <a href="/b/general/"><code>/b/general/</code></a></h2>
+
+                <h2>API Tests:</h2>
+
+                <div id="testui">
+                    <div class="section threads">
+                        <h3>For /api/threads/:board</h3>
+
+                        <div id="threads">
+                            <div class="sub-section">
+                                <h5>New thread (POST /api/threads/:board)</h5>
+
+                                <form id="newThread" action="/api/threads/test" method="post">
+                                    <input type="text" placeholder="*board name" id="board1" name="board" required=""><br>
+                                    <textarea type="text" placeholder="*Thread text..." name="text" required=""></textarea><br>
+                                    <input type="text" placeholder="*password to delete" name="delete_password" required=""><br>
+                                    <input type="submit" value="SUBMIT">
+                                </form>
+                            </div>
+
+                            <div class="sub-section">
+                                <h5>Report thread (PUT /api/threads/:board)</h5>
+
+                                <form id="reportThread">
+                                    <input type="text" placeholder="*board name" id="board2" name="board" required=""><br>
+                                    <input type="text" placeholder="*id to report" name="thread_id" required=""><br>
+                                    <input type="submit" value="REPORT">
+                                </form>
+                            </div>
+
+                            <div class="sub-section">
+                                <h5>Delete thread (DELETE /api/threads/:board)</h5>
+
+                                <form id="deleteThread">
+                                    <input type="text" placeholder="*board name" id="board3" name="board" required=""><br>
+                                    <input type="text" placeholder="*id to delete" name="thread_id" required=""><br>
+                                    <input type="text" placeholder="*password" name="delete_password" required=""><br>
+                                    <input type="submit" value="DELETE">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section replies">
+                        <h3>For /api/replies/:board</h3>
+
+                        <div id="replies">
+                            <div class="sub-section">
+                                <h5>New reply (POST /api/replies/:board)</h5>
+
+                                <form id="newReply" action="/api/threads/test" method="post">
+                                    <input type="text" placeholder="*board name" id="board4" name="board" required=""><br>
+                                    <input type="text" placeholder="*thread id" name="thread_id" required=""><br>
+                                    <textarea type="text" placeholder="*Thread text..." name="text" required=""></textarea><br>
+                                    <input type="text" placeholder="*password to delete" name="delete_password" required=""><br>
+                                    <input type="submit" value="SUBMIT">
+                                </form>
+                            </div>
+
+                            <div class="sub-section">
+                                <h5>Report reply (PUT /api/replies/:board)</h5>
+
+                                <form id="reportReply">
+                                    <input type="text" placeholder="*board name" id="board5" name="board" required=""><br>
+                                    <input type="text" placeholder="*thread id" name="thread_id" required=""><br>
+                                    <input type="text" placeholder="*id to report" name="reply_id" required=""><br>
+                                    <input type="submit" value="REPORT">
+                                </form>
+                            </div>
+
+                            <div class="sub-section">
+                                <h5>Delete reply (DELETE /api/replies/:board)</h5>
+
+                                <form id="deleteReply">
+                                    <input type="text" placeholder="*board name" id="board6" name="board" required=""><br>
+                                    <input type="text" placeholder="*thread id" name="thread_id" required=""><br>
+                                    <input type="text" placeholder="*id to delete" name="reply_id" required=""><br>
+                                    <input type="text" placeholder="*password" name="delete_password" required=""><br>
+                                    <input type="submit" value="DELETE">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer">    
+        <h5>Designed and coded by <a href="https://github.com/Madness2aMaze" target="_blank" id="footbar" title="©2019 Cătălin Anghel-Ursu @Madness2aMaze - All Rights Reserved">@Madness2aMaze ©2019 - All Rights Reserved</a> | <a href="https://codepen.io/Madness2aMaze/"
+          title="More of my works" target="_blank"><i class="fab fa-codepen"></i></a> | <a href="https://www.freecodecamp.com/" target="_blank" title="FreeCodeCamp"><i class="fab fa-free-code-camp"></i></a>
+        </h5>
+    </div>
+  <!-- Your web-app is https, so your scripts need to be too -->
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous" type="text/javascript"></script>
+  <script type="text/javascript">
+  $(function() {
+        $("#newThread").submit(function(){
+          var board = $("#board1").val();
+          $(this).attr("action", "/api/threads/" + board);
+        });
+        $("#newReply").submit(function(){
+          var board = $("#board4").val();
+          $(this).attr("action", "/api/replies/" + board);
+        });
+        $("#reportThread").submit(function(e){
+          var url = "/api/threads/"+$("#board2").val();
+          $.ajax({
+            type: "PUT",
+            url: url,
+            data: $(this).serialize(),
+            success: function(data)
+            {
+              alert(data);
+            }
+          });
+          e.preventDefault();
+        });
+        $("#deleteThread").submit(function(e){
+          var url = "/api/threads/"+$("#board3").val();
+          $.ajax({
+            type: "DELETE",
+            url: url,
+            data: $(this).serialize(),
+            success: function(data)
+            {
+              alert(data);
+            }
+          });
+          e.preventDefault();
+        });
+        $("#reportReply").submit(function(e){
+          var url = "/api/replies/"+$("#board5").val();
+          $.ajax({
+            type: "PUT",
+            url: url,
+            data: $(this).serialize(),
+            success: function(data)
+            {
+              alert(data);
+            }
+          });
+          e.preventDefault();
+        });
+        $("#deleteReply").submit(function(e){
+          var url = "/api/replies/"+$("#board6").val();
+          $.ajax({
+            type: "DELETE",
+            url: url,
+            data: $(this).serialize(),
+            success: function(data)
+            {
+              alert(data);
+            }
+          });
+          e.preventDefault();
+        });
+      });
+    </script>
+</body>
+</html>
