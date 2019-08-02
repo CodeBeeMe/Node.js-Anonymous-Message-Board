@@ -1,0 +1,398 @@
+/*==================================styling for board.html=================================*/
+
+body {
+	font-family: 'Raleway', sans-serif;
+	font-size: 14px;
+	color: #222;
+	text-align: center;
+	line-height: 1.4em;
+  /*background: #616a72;*/
+  /*background: #000a15;*/
+  background: #DAE2F8;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top, #D6A4A4, #DAE2F8);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to top, #D6A4A4, #DAE2F8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+input[type=text]  {
+  width: 145px;
+  font-size: 12px;
+  padding: 5px;
+  color: #0b1928;  
+  background-color: #f4f9ff;
+  border-radius: 5px 5px 5px 5px;
+  border-color: rgba(0, 0, 0, .4);
+  border-width: 1px;
+/*border-right: none;*/
+  outline: none;
+}
+
+input[type=text]:active, input[type=text]:focus {
+  border: 1px solid #c98cff;
+  /*border-right: none;*/
+  color: #0b1928; 
+  box-shadow: 0px 0px 0px 3px #DAE2F8;
+  transition: .2s;
+  outline: none;
+}
+
+textarea {
+  width: 540px;
+  height: 55px;
+  padding: 4.5px;
+  color: #0b1928;  
+  background-color: #f4f9ff;
+  border: 1px solid #c98cff;
+  border-radius: 5px 5px 5px 5px;
+  border-color: rgba(0, 0, 0, .4);
+ /*border-right: none;*/
+  outline: none;
+}
+
+textarea:active, textarea:focus {
+  border: 1px solid #c98cff;
+  /*border-right: none;*/
+  color: #0b1928;
+  background-color: #fff;  
+  box-shadow: 0px 0px 0px 3px #DAE2F8;
+  transition: .2s;
+  outline: none;
+}
+
+input[type=text]::placeholder, textarea::placeholder  {
+  color: rgba(0, 0, 0, .4);
+}
+
+input[type=submit]  {
+  color: #333;
+  width: 160px;
+  font-weight: bold;
+  margin: 4px auto; 
+  border-radius: 5px 5px 5px 5px;
+  font-size: 14px;
+  padding: 4px;
+  border: 2px solid #c98cff;  
+  background-color: #f4f9ff;
+  transition: .2s;
+}
+
+input[type=submit]:hover {
+  color: #f4f9ff;
+  border: 2px solid #c98cff;
+  background-color: #333;
+  transition: .2s;  
+}
+
+input[type=submit]:active, input[type=submit]:focus {
+  border: 2px solid #c98cff;
+  box-shadow: 0px 0px 0px 5px #DAE2F8;
+  transition: .2s;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+  padding: 0px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  border-width: 0px;
+  border-bottom: 2px #fff solid;  
+  background: transparent;
+  transition: .15s;
+}
+
+button:hover {
+  transition: .15s;
+  background-color: #c98cff;
+}
+
+button a {  
+  color: #c98cff;
+  text-decoration: none;
+  transition: .15s;
+}
+
+button a:hover {
+  color: #fff;  
+  transition: .15s;
+}
+
+#boardTitle {
+  padding: 21px;
+  font-size: 52px;
+  color: #555;
+  margin-top: 3.5%;
+  margin-bottom: 0;
+  color: #f8f8f8;
+  background: rgba(0, 0, 0, .1); /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, .1), rgba(0, 0, 0, .1), rgba(0, 0, 0, 0));  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, .1), rgba(0, 0, 0, .1), rgba(0, 0, 0, 0)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+#boardDisplay {
+  margin: 0 auto;
+  font-family: monospace;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 30px 10px 30px 35px;
+  border-radius: 30px;
+  border-top: 10px rgba(0, 0, 0, .3) solid;  
+  box-shadow: inset 0px 1px 5px 1px #85778f;
+}
+
+#newSection {
+  max-width: 565px;
+  margin: 0 auto;
+  border-radius: 15px;
+  border: 2px solid #f8f8f8; 
+  padding: 0 10px 10px 10px;
+  background: rgba(255, 255, 255, .5);
+  box-shadow: 2px 2px 3px 0px #a48bb5;
+}
+
+#newSection h3 {
+  margin: 10px 0 5px 0;
+  color: #333;
+}
+
+.new-thread {
+  margin: 0 auto;
+}
+
+.new-thread input[type=text] {
+  width: 150px;
+}
+
+.new-thread input[type=submit] {
+  width: 160px;
+}
+
+.new-thread input[type=text], .new-thread textarea {
+  max-width: 550px;
+}
+
+#deleteThread {
+  margin-left: 66.5%;
+  margin-top: -32px;
+}
+
+#deleteThread input[type=text] {
+  margin-right: 4px;
+  font-size: 11px;
+  width: 80px;
+}
+
+#deleteThread input[type=submit] {
+  color: #ff8c8c;
+  font-size: 11px;
+  width: 80px;
+  border: 2px solid #ff8c8c;
+}
+
+#deleteThread input[type=submit]:hover {
+  color: #f4f9ff;
+  border: 2px solid #f4f9ff;
+  background-color: #ff8c8c;
+  transition: .2s; 
+}
+
+#reportThread {
+  
+}
+
+#reportThread input[type=submit] {
+  margin-right: 84%;
+  font-size: 11px;
+  width: 80px;
+}
+
+.main h3 {
+  text-align: left;
+  margin: 10px;
+}
+
+/*==================================styling for thread.html=================================*/
+
+.replies {
+  text-align: right;
+}
+
+.replies h5 {
+  text-align: left;
+  margin: 0 10px 0 10px;
+}
+
+.reply {
+  border: 1px dotted black;
+  margin: 5px;
+  padding: 5px;
+}
+
+.newReply {
+  margin: 10px 0 0 0;
+}
+
+#newReply textarea {
+  max-width: 415px;
+}
+
+#newReply input[type=text] {
+  margin-right: 8px;
+  padding: 7px 0 5px 4px;
+}
+
+
+#submitNewThread {
+  margin: 50px;
+}
+
+.thread {  
+  margin: 10px;
+  padding: 15px;
+  width: 30%;
+  border-radius: 15px;
+  border: 2px solid #f8f8f8; 
+  background-color: rgba(255, 255, 255, .5);
+  box-shadow: 2px 2px 3px 0px #a48bb5;  
+}
+
+.closed {
+  border: 2px solid #333;
+  background-color: rgba(0, 0, 0, .1);
+  opacity: .7;
+}
+
+.id {
+  margin: 2px;
+  margin-bottom: 0;
+  padding: 1px;
+  color: #555;
+  font-size: 11px;
+  color: #fff;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, .2);
+  transition: .2s;
+}
+
+.threadTitle {
+  margin: 2px;
+  margin-bottom: 0;
+  padding: 2px;
+  color: #555;
+  background-color: rgba(255, 246, 221, 1);  
+}
+
+.threadText {
+  margin: 2px;
+  width: 505px;
+  margin-bottom: 0;
+  padding: 2px;
+  color: #555;
+  background-color: rgba(255, 246, 221, 1); 
+  font-size: 13px;
+}
+
+.closeThread {
+  margin-right: 2px;
+  padding: 5px;
+  color: #555;
+  font-size: 11px;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, .4);;
+  background-color: #fff;
+  text-decoration: none;
+  transition: .2s;
+}
+
+.closeThread:hover {
+  color: #fff;
+  background-color: #555;
+  transition: .2s;
+}
+
+.deleteThread {
+  margin-left: 2px;
+  padding: 5px;
+  color: #ff5e5e;
+  font-size: 11px;
+  border-radius: 5px;
+  border: 1px solid #ff5e5e;
+  background-color: #fff;
+  text-decoration: none;
+  transition: .2s;
+}
+
+.deleteThread:hover {
+  color: #fff;
+  background-color: #ff5e5e;
+  transition: .2s;  
+}
+
+#footer {
+  font-family: monospace;
+  max-width: 960.5px;
+  margin: 0 auto;
+  margin-top: 10px;
+  border-radius: 15px;
+  background: rgba(0, 0, 0, .1);
+}
+ 
+#footer h5 {
+  margin-top: 0;
+  font-size: 12px;
+  color: #555;
+}
+#footer a {
+  color: #9116ff;
+  transition: 0.2s;
+  text-decoration: none;
+}
+#footer a:hover {
+  color: #fff;
+  transition: 0.2s;
+}
+
+
+::-webkit-scrollbar {
+  background: #DAE2F8;
+  width: 10px;  
+}
+
+::-webkit-scrollbar-track {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+::-webkit-scrollbar-thumb {  
+  background: rgba(0, 0, 0, .2);
+  border-radius: 15px;
+}
+
+
+@media (max-width: 1280px) {
+  body {
+    transform: scale(.85, .85);
+  }
+ 
+}
+
+@media (max-width: 960px) {
+  body {
+    font-size: 10px;
+  }
+  #title h1{
+    margin: 3.5%;
+    font-size: 32px;
+  }
+  #title h6{
+   margin-bottom: -2.5%;
+    font-size: 14px;
+  }
+    h1 {
+      font-size: 2em;
+    }
+  .thread {
+    transform: scale(.85, .85);
+  }
+}
+
