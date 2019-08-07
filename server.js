@@ -29,33 +29,42 @@ app.use(cors({origin: '*'})); //For FCC testing purposes only
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(helmet.xssFilter()); //Mitigate the risk of XSS - `helmet.xssFilter()`
-app.use(helmet.noSniff()); //Avoid inferring the response MIME type - `helmet.noSniff()`
-
-/*app.use(helmet.contentSecurityPolicy({
-  directives: {
-    defaultSrc: ["'self'"],
-    scriptSrc: ["'self'", 'https://code.jquery.com'],
-    styleSrc: ["'self'", 'https://fonts.googleapis.com', 'https://use.fontawesome.com'],
-    fontSrc : ["'self'", 'https://fonts.gstatic.com', 'https://use.fontawesome.com' ]
-  }
-}));*/
+app.use(helmet({
+  frameguard: {
+    action: 'sameorigin'
+    /// will prevent anyone from putting this page in an iframe unless it’s on the same origin.
+    //That generally means that you can put your own pages in iframes, but nobody else can.
+  },
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", 'https://code.jquery.com'],
+      styleSrc: ["'self'", 'https://fonts.googleapis.com', 'https://use.fontawesome.com'],
+      fontSrc : ["'self'", 'https://fonts.gstatic.com', 'https://use.fontawesome.com' ]
+    }
+  },
+  dnsPrefetchControl: { 
+    allow: false // Disable DNS Prefetching 
+  } 
+}));
 
 //Sample front-end
+
 app.route('/b/:board/')
   .get(function (req, res) {
-    res.sendFile(process.cwd() + '/views/board.html');
-  });
+  res.sendFile(process.cwd() + '/views/board.html');
+});
+
 app.route('/b/:board/:threadid')
   .get(function (req, res) {
-    res.sendFile(process.cwd() + '/views/thread.html');
-  });
+  res.sendFile(process.cwd() + '/views/thread.html');
+});
 
 //Index page (static HTML)
 app.route('/')
   .get(function (req, res) {
-    res.sendFile(process.cwd() + '/views/index.html');
-  });
+  res.sendFile(process.cwd() + '/views/index.html');
+});
 
 //For FCC testing purposes
 fccTestingRoutes(app);
