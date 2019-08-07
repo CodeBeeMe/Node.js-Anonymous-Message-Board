@@ -1,3 +1,5 @@
+
+
 /*====================================styling for index.html====================================*/
 
 body {
@@ -8,11 +10,11 @@ body {
 	line-height: 1.4em;
   /*background: #616a72;*/
   /*background: #000a15;*/
-  background: #DAE2F8;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #D6A4A4, #DAE2F8);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #D6A4A4, #DAE2F8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+  background: #2BC0E4;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #EAECC6, #6ad1d8);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #EAECC6, #6ad1d8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+
 
 ol {
 	list-style-position: inside;
@@ -28,16 +30,6 @@ a {
 label {
   margin-right: 10px;
 }
-
-input {
-  padding: 5px;
-}
-
-input[type=text] {
-  width: 220px;
-  text-align: center;
-}
-
 
 #title h1{
   color: #555;
@@ -124,82 +116,6 @@ input[type=text] {
   padding-left: 10px;
 }
 
-.examples {
-  margin: 10px 10px 0px -30px;
-  font-family: monospace;
-  position: relative;
-  text-align: justify;
-}
-
-.examples li {
-  margin-top: 1em;
-}
-
-.returned {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  max-width: 676.5px;
-}
-
-.returned code {
-  font-family: monospace;
-  font-size: 12px;
-  word-wrap: break-word;
-}
-
-.status {
-  width: 967.5px;
-  display: none;
-}
-
-#responseUi {  
-  display: flex;
-  flex-wrap: wrap;
-  font-size: 11px;
-  justify-content: center;
-}
-
-.output {
-  display: flex;  
-  flex-wrap: wrap;
-  margin-top: 15px;
-  padding: 10px;
-  border-radius: 7px;
-  justify-content: center;  
-  background: rgba(0, 0, 0, .1);
-  transition: .5s;
-}
-
-svg:not(:root).svg-inline--fa {
-    overflow: visible;
-}
-
-.svg-inline--fa.fa-w-16 {
-    width: 1em;
-}
-
-#result {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;  
-  font-size: 14px;
-  max-width: 300px;
-}
-
-
-#json {
-  margin: 0;
-  display: flex;
-  font-size: 12px;
-  flex-wrap: wrap; 
-  max-width: 300px;
-}
-
-#jsonResult {
-  word-wrap: break-word;
-}
-
 #testui {
   font-family: monospace;
   display: flex;
@@ -243,28 +159,6 @@ code {
   font-size: 10px;
 }
 
-.submit {
-  margin-top: 50px;
-  height: 253px;
-}
-
-.update {
-}
-
-.delete {
-  margin-top: 135px;
-  height: 77px;
-}
-
-.next {
-  margin: 15px;
-}
-
-.next p {  
-  color: rgba(0, 0, 0, .1);
-  font-size: 167.5px;
-}
-
 #apinfo {
   display: flex;
   flex-wrap: wrap;
@@ -281,6 +175,19 @@ table {
   border-radius: 5px;
   border: 1px solid #c6bacf;
   background: rgba(255, 255, 255, .8);  
+}
+
+.head-row1 {
+  border-radius: 3px 0 0 0;
+}
+
+.head-row4 {
+  color: #ff8c8c;
+  border-radius: 0 3px 0 0;
+}
+
+.body-row1 {
+  background: rgba(0, 0, 0, .1)
 }
 
 td {
@@ -493,7 +400,6 @@ button a:hover {
   transition: 0.2s;
 }
 
-
 ::-webkit-scrollbar {
   background: #DAE2F8;
   width: 10px;  
@@ -508,7 +414,6 @@ button a:hover {
   background: rgba(0, 0, 0, .2);
   border-radius: 15px;
 }
-
 
 @media (max-width: 1280px) {
   body {
