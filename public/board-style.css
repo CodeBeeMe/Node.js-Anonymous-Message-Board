@@ -1,4 +1,4 @@
-/*==================================styling for board.html=================================*/
+/*==================================styling for board.html & thread.html=================================*/
 
 body {
 	font-family: 'Raleway', sans-serif;
@@ -8,10 +8,9 @@ body {
 	line-height: 1.4em;
   /*background: #616a72;*/
   /*background: #000a15;*/
-  background: #DAE2F8;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to top, #D6A4A4, #DAE2F8);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to top, #D6A4A4, #DAE2F8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+  background: #2BC0E4;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #EAECC6, #6ad1d8);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #EAECC6, #6ad1d8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 input[type=text]  {
@@ -64,7 +63,7 @@ input[type=text]::placeholder, textarea::placeholder  {
 }
 
 input[type=submit]  {
-  color: #333;
+  color: #f4f9ff;
   width: 160px;
   font-weight: bold;
   margin: 4px auto; 
@@ -72,14 +71,14 @@ input[type=submit]  {
   font-size: 14px;
   padding: 4px;
   border: 2px solid #c98cff;  
-  background-color: #f4f9ff;
+  background-color: #333;
   transition: .2s;
 }
 
 input[type=submit]:hover {
-  color: #f4f9ff;
+  color: #333;
   border: 2px solid #c98cff;
-  background-color: #333;
+  background-color: #f4f9ff;
   transition: .2s;  
 }
 
@@ -103,7 +102,7 @@ button {
 
 button:hover {
   transition: .15s;
-  background-color: #c98cff;
+  border-bottom: 2px #c98cff solid;  
 }
 
 button a {  
@@ -134,10 +133,10 @@ button a:hover {
   font-family: monospace;
   display: flex;
   flex-wrap: wrap;
-  padding: 30px 10px 30px 35px;
+  padding: 30px 10px 35px 35px;
   border-radius: 30px;
   border-top: 10px rgba(0, 0, 0, .3) solid;  
-  box-shadow: inset 0px 1px 5px 1px #85778f;
+  box-shadow: inset 0px 1px 5px 1px #778f8c;
 }
 
 #newSection {
@@ -147,7 +146,7 @@ button a:hover {
   border: 2px solid #f8f8f8; 
   padding: 0 10px 10px 10px;
   background: rgba(255, 255, 255, .5);
-  box-shadow: 2px 2px 3px 0px #a48bb5;
+  box-shadow: 2px 2px 3px 0px #778f8c;
 }
 
 #newSection h3 {
@@ -172,7 +171,7 @@ button a:hover {
 }
 
 #deleteThread {
-  margin-left: 66.5%;
+  margin-left: 89.5%;
   margin-top: -32px;
 }
 
@@ -196,25 +195,60 @@ button a:hover {
   transition: .2s; 
 }
 
-#reportThread {
-  
-}
-
 #reportThread input[type=submit] {
-  margin-right: 84%;
+  margin-right: 95%;
   font-size: 11px;
   width: 80px;
 }
 
 .main h3 {
+  padding: 5px 8px 5px 8px;
+  color: #f8f8f8;
   text-align: left;
-  margin: 10px;
+  margin: 5px;
+  background: #444;
 }
 
-/*==================================styling for thread.html=================================*/
+.main h5 {
+  font-size: 12px;
+  margin: 5px;
+  padding: 5px 8px 5px 5px;
+  color: #f8f8f8;
+  text-align: right; 
+  background: rgba(0, 0, 0, .1); /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, .3), rgba(0, 0, 0, .7));  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, .3), rgba(0, 0, 0, .7)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.main button {
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+#threadTitle {
+  font-family: monospace;
+  padding: 21px;
+  font-size: 52px;
+  color: #555;
+  margin-top: 3.5%;
+  margin-bottom: 0;
+  color: #f8f8f8;
+  background: rgba(0, 0, 0, .1); /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, .1), rgba(0, 0, 0, .1), rgba(0, 0, 0, 0));  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, .1), rgba(0, 0, 0, .1), rgba(0, 0, 0, 0)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
 
 .replies {
+  display: flex;
+  flex-wrap: wrap;  
   text-align: right;
+}
+
+.replies textarea {
+  max-width: 416px;
+  margin: -3px 5px 0 7px;
+  border-radius: 7px;
 }
 
 .replies h5 {
@@ -223,9 +257,53 @@ button a:hover {
 }
 
 .reply {
-  border: 1px dotted black;
-  margin: 5px;
+  width: 414px;
+  text-align: center;
+  margin: 7px;
   padding: 5px;
+  border-radius: 10px;
+  border: 2px solid #f8f8f8; 
+  background-color: rgba(255, 255, 255, .5);
+  box-shadow: 2px 2px 3px 0px #778f8c;
+}
+
+#replyText {
+  font-size: 14px;
+  margin: 0 2px 2px 2px;
+  padding: 5px;
+  border-radius: 0 0 5px 5px;
+  background: #fff;
+}
+
+#deleteReply {
+  margin-left: 66%;
+  margin-top: -30px;
+}
+
+#deleteReply input[type=text] {
+  margin-right: 4px;
+  font-size: 9px;
+  width: 60px;
+}
+
+#deleteReply input[type=submit] {
+  color: #ff8c8c;
+  font-size: 9px;
+  width: 60px;
+  border: 2px solid #ff8c8c;
+}
+
+#deleteReply input[type=submit]:hover {
+  color: #f4f9ff;
+  border: 2px solid #f4f9ff;
+  background-color: #ff8c8c;
+  transition: .2s; 
+}
+
+#reportReply input[type=submit] {
+  margin-right: 85%;
+  font-size: 9px;
+  width: 60px;
 }
 
 .newReply {
@@ -233,14 +311,18 @@ button a:hover {
 }
 
 #newReply textarea {
-  max-width: 415px;
 }
 
 #newReply input[type=text] {
+  width: 115px;
   margin-right: 8px;
   padding: 7px 0 5px 4px;
 }
 
+#newReply input[type=submit] {
+  width: 100px;
+  margin-right: 5px;
+}
 
 #submitNewThread {
   margin: 50px;
@@ -249,11 +331,11 @@ button a:hover {
 .thread {  
   margin: 10px;
   padding: 15px;
-  width: 30%;
+  width: 95.7%;
   border-radius: 15px;
   border: 2px solid #f8f8f8; 
   background-color: rgba(255, 255, 255, .5);
-  box-shadow: 2px 2px 3px 0px #a48bb5;  
+  box-shadow: 2px 2px 3px 0px #778f8c;  
 }
 
 .closed {
@@ -352,7 +434,6 @@ button a:hover {
   transition: 0.2s;
 }
 
-
 ::-webkit-scrollbar {
   background: #DAE2F8;
   width: 10px;  
@@ -395,4 +476,3 @@ button a:hover {
     transform: scale(.85, .85);
   }
 }
-
