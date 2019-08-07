@@ -8,86 +8,70 @@
 
 'use strict';
 
-const expect = require('chai').expect;
+const expect   = require('chai').expect;
 const ObjectId = require('mongodb').ObjectID;
 
 module.exports = (app, db) => {
     
   //=================================================== Posting, reporting and deleting a thread ===================================================
+  //display all threads
   app.route('/api/threads/:board')
     .get((req, res) => {
     const board = req.params.board;
-    const threadQuery = req.query; //getting the query object filled with the query strings
     
-    threadQuery._id ? threadQuery._id = new ObjectId(threadQuery._id) : undefined;
-    
-    //assigning the boolean value resulting from the comparison to the threadQuery.reported property before running the .find() method
-    threadQuery.reported ? threadQuery.reported = threadQuery.reported.toString() == "true" : null;
-       
-    //running the .find() method with the query object req.query resulted from the user query strings
-    //on the first run the query object is empty and the .find() returns all the issue entries for that particular board
-    db.collection(board).find({}).toArray((err, threads) => {
+    db.collection(board)
+      .find({})
+      .project({reported: 0, delete_password: 0})
+      .sort({bumped_on: -1})
+      .limit(10)
+      .toArray((err, threads) => {
       //getting the replycount value looking at the length of the replies array
       threads.forEach(el => el.replycount = el.replies.length);
-      err ? res.send(err) : res.send(threads);
-      
-      //console.log(threadQuery);
+      err ? res.send(err) : res.send(threads);      
+      //console.log(threads);
     });
   })
-  //submitting the thread
+  //submitting(adding) the thread
     .post((req, res) => {
     const board = req.params.board;
-    console.log(board);
-    
-    const boardName  = req.body.board;
-    const text       = req.body.text;
-    const password   = req.body.delete_password;
+    const body  = req.body;
+    //console.log(board);    
     
     const threadEntry = {      
-      text:            text,      
+      text:            body.text,      
       created_on:      new Date().toISOString(),
       bumped_on:       new Date().toISOString(),
       reported:        false,
-      delete_password: password,
+      delete_password: body.delete_password,
       replies : []
     }  
     
-    if (!text || !password ) { //checking to see if the user entered a boardName, text and password in the required input fields
+    if (!body.text || !body.delete_password ) { //checking to see if the user entered a boardName, text and password in the required input fields
       res.send('*required fields missing');
     } else { //all fields are filled => proceed to add the thread to the database
       db.collection(board).insertOne(threadEntry, (err, thread) => {
-        //console.log('Thread ' + text + ' has been successfully submitted.');
         threadEntry._id = thread.insertedId;
-        //console.log(issue); 
+        //console.log(thread); 
         //err ? res.send(err) : res.json(threadEntry);
         err ? res.send(err) : res.redirect('/b/' + board + '/');
       })
     }
   })
   
-  //updating(reporting) the thread
+  //reporting the thread
     .put((req, res) => {
-    const board = req.params.board;    
-    const threadUpdate = req.body; // threadUpdate obj composed of the form fields data
-    const reportId     = req.body.report_id;
+    const board      = req.params.board;
+    const idToReport = req.body.thread_id || req.body.report_id;
+    //console.log(idToReport);    
     
-    console.log(reportId);    
-    
-    // a series of checks to refine the updates object and keep only the user completed form fields(updates) before is sent to the update method      
-    !threadUpdate.text       ? delete threadUpdate.text : null; 
-    !threadUpdate.created_on ? delete threadUpdate.created_on  : null; 
-    !threadUpdate.bumped_on  ? delete threadUpdate.bumped_on  : null; 
-    !threadUpdate.replies    ? delete threadUpdate.replies : null; 
-                               delete req.body.report_id; //reseting the body._id from memory          
-    
-    reportId ? threadUpdate.reported = "true" : null;
-    threadUpdate.bumped_on =  new Date().toISOString(); //reset the bumped_on property
-    
-    db.collection(board).findOneAndUpdate({_id: ObjectId(reportId)}, { $set: threadUpdate }, (err, thread) => {
-        err ? res.send('could not update ' + reportId) : res.send('successfully updated');        
+    if (idToReport) {
+      db.collection(board).findOneAndUpdate(
+        {_id: new ObjectId(idToReport)},
+        { $set: { reported: true, bumped_on: new Date().toISOString()}}, (err, thread) => {
+        err ? res.send(err) : res.send('success');        
         //console.log(req.body);
       })
-    
+    }
   })  
   
   //deleting the thread
@@ -96,24 +80,102 @@ module.exports = (app, db) => {
     const threadId = req.body.thread_id;
     const password = req.body.delete_password;
     
-    if (!threadId || !password) { //checking to see if the user entered thread_id in the input field
-      res.send('_id error');
-    } else {//_id and password entered => proceed to delete the thread from the database        
-      db.collection(board).deleteOne({_id: ObjectId(threadId), delete_password: password}, (err, result) => {
-        if (err) {
-          res.send(err);
-        } else {
-          const deleted = result.result.n; // property identifier from the result file that reports if the delete was done or not.
-          deleted === 0 ? res.send('incorrect password') : res.send('success'); //if  deleted === 1 then the thread was deleted
-          console.log(result.result.n);
-        }     
-      });
-    }
+    db.collection(board).deleteOne({_id: new ObjectId(threadId), delete_password: password}, (err, result) => {
+      if (err) {
+        res.send(err);
+      } else {
+        const deleted = result.result.n; // property identifier from the result file that reports if the delete was done or not.
+        deleted === 0 ? res.send('incorrect password') : res.send('success'); //if  deleted === 1 then the thread was deleted
+        //console.log(result.result.n);
+      }   
+    });
   });  
   //================================================================================================================================================
   
   //=================================================== Posting, reporting and deleting a reply ====================================================
-  app.route('/api/replies/:board');
+  app.route('/api/replies/:board')
   
-
+  //display the thread and all it's replies(posts)
+    .get((req, res) => {
+    const board = req.params.board;
+    const threadId = req.query.thread_id;    
+    //console.log(threadId);
+    
+    db.collection(board)
+      .find({_id: ObjectId(threadId)})
+      .project({ reported: 0, delete_password: 0, "replies.reported": 0, "replies.delete_password": 0 })
+      .toArray((err, thread) => {
+      //getting the replycount value by looking at the length of the replies array
+      thread.forEach(el => el.replycount = el.replies.length);
+      err ? res.send(err) : res.send(thread[0]);      
+      //console.log(thread);
+    });
+  })
+  
+  //submitting(adding) a reply
+    .post((req, res) => {
+    const board = req.params.board;
+    const body  = req.body;    
+    //console.log(body); 
+    
+    const replyEntry = {
+      _id:             new ObjectId(),
+      text:            body.text,      
+      created_on:      new Date().toISOString(),
+      bumped_on:       new Date().toISOString(),
+      reported:        false,
+      delete_password: body.delete_password
+    }  
+    
+    if (!body.text || !body.delete_password ) { //checking to see if the user entered the text and password in the required input fields
+      res.send('*required fields missing');
+    } else { //all fields are filled => proceed to add the reply to the thread
+      db.collection(board).findOneAndUpdate(
+        {_id: ObjectId(body.thread_id)},
+        { $push : { replies: replyEntry }}, (err, reply) => {
+        //console.log('Thread ' + text + ' has been successfully submitted.');
+        //replyEntry._id = reply.insertedId;
+        err ? res.send(err) : res.redirect('/b/' + board + '/' + body.thread_id);
+      })
+    }
+  })
+  
+  //reporting the reply
+   .put((req, res) => {
+    const board    = req.params.board;
+    const body     = req.body;    
+    //console.log(body);  
+    
+    db.collection(board).findOneAndUpdate(
+      {_id: ObjectId(body.thread_id), "replies._id" : ObjectId(body.reply_id)},
+      { $set : { "replies.$.reported" : true, "replies.$.bumped_on": new Date().toISOString()}}, (err, reply) => {        
+        err ? res.send(err) : res.send('success');
+      });    
+  })
+  
+  //deleting the reply
+    .delete((req, res) => {
+    const board = req.params.board;
+    const body = req.body;    
+    //console.log(body);
+    
+    db.collection(board).findOne({_id: ObjectId(body.thread_id)}, (err, thread) => {
+      if (err) {
+        res.send(err);
+      } else {
+        thread.replies.forEach(el => { 
+          if (ObjectId(el._id) == body.reply_id) {
+            if (el.delete_password == body.delete_password) {
+              db.collection(board).updateOne(
+                {_id: ObjectId(body.thread_id), "replies._id" : ObjectId(el._id)},
+                { $set : { "replies.$.text" : "[deleted]" }})
+              res.send('success');
+            } else { 
+              res.send('incorrect password');
+            } 
+          } 
+        })
+      }  
+    });
+  });  
 };
