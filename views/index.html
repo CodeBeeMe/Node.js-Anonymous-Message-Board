@@ -34,10 +34,10 @@
                         <li>I can <b>GET</b> an array of the most recent 10 bumped threads on the board with only the most recent 3 replies from <i>/api/threads/{board}</i>. The <code>reported</code> and <code>delete_passwords</code> fields will not be sent.</li>
                         <li>I can <b>GET</b> an entire thread with all it's replies from <i>/api/replies/{board}?thread_id={thread_id}</i>. Also hiding the same fields.</li>
                         <li>I can delete a thread completely if I send a <b>DELETE</b> request to <i>/api/threads/{board}</i> and pass along the <code>thread_id</code> &amp; <code>delete_password</code>. (Text response will be 'incorrect password' or 'success')</li>
-                        <li>I can delete a post(just changing the text to '[deleted]') if I send a <b>DELETE</b> request to <i>/api/replies/{board}</i> and pass along the <code>thread_id</code>, <code>reply_id</code>, &amp; <code>delete_password</code>. (Text response will be 'incorrect password' or 'success')</li>
+                        <li>I can delete a reply (not permanent deletion just changing the text to '[deleted]') if I send a <b>DELETE</b> request to <i>/api/replies/{board}</i> and pass along the <code>thread_id</code>, <code>reply_id</code>, &amp; <code>delete_password</code>. (Text response will be 'incorrect password' or 'success')</li>
                         <li>I can report a thread and change it's reported value to true by sending a <b>PUT</b> request to <i>/api/threads/{board}</i> and pass along the <code>thread_id</code>. (Text response will be 'success')</li>
                         <li>I can report a reply and change it's reported value to true by sending a <b>PUT</b> request to <i>/api/replies/{board}</i> and pass along the <code>thread_id</code> &amp; <code>reply_id</code>. (Text response will be 'success')</li>
-                        <li>Complete functional tests that wholely test routes and pass.</li>
+                        <li>All 10 functional tests are complete and passing.</li>
                     </ol>
                 </div>
             </div>
@@ -49,17 +49,17 @@
                     <table id="apimethods">
                         <thead>
                             <tr>
-                                <th style="border-radius: 3px 0 0 0">API</th>
+                                <th class="head-row1">API</th>
                                 <th>GET</th>
                                 <th>POST</th>
                                 <th>PUT</th>
-                                <th style="color: #ff8c8c; border-radius: 0 3px 0 0">DELETE</th>
+                                <th class="head-row4" style="color: #ff8c8c; border-radius: 0 3px 0 0">DELETE</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             <tr>
-                                <td style="background: rgba(0, 0, 0, .1)"><code><b>/api/threads/{board}</b></code></td>
+                                <td class="body-row1" style="background: rgba(0, 0, 0, .1)"><code><b>/api/threads/{board}</b></code></td>
                                 <td>list recent threads</td>
                                 <td>create thread</td>
                                 <td>report thread</td>
@@ -67,7 +67,7 @@
                             </tr>
 
                             <tr>
-                                <td style="background: rgba(0, 0, 0, .1)"><code><b>/api/replies/{board}</b></code></td>
+                                <td class="body-row1" style="background: rgba(0, 0, 0, .1)"><code><b>/api/replies/{board}</b></code></td>
                                 <td>show all replies on thread</td>
                                 <td>create reply on thread</td>
                                 <td>report reply on thread</td>
@@ -78,16 +78,6 @@
                 </div>
             </div>
           
-          <div class="section status">
-          <div id="responseUi">
-            <div class="output">
-              <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="spinner" role="img" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512" class="svg-inline--fa fa-spinner fa-w-16 fa-spin fa-lg"><path fill="currentColor" d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z" class=""></path></svg>
-              <span>&#xa0; &#xa0;</span>
-              <code id="jsonResult"></code>
-            </div> 
-          </div>
-        </div>
-
             <div class="section">
                 <h2 id="apiTest">All the threads entries in <i>general</i> board: go to <a href="/b/general/"><code>/b/general/</code></a></h2>
 
@@ -182,70 +172,7 @@
         </h5>
     </div>
   <!-- Your web-app is https, so your scripts need to be too -->
-    <script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous" type="text/javascript"></script>
-  <script type="text/javascript">
-  $(function() {
-        $("#newThread").submit(function(){
-          var board = $("#board1").val();
-          $(this).attr("action", "/api/threads/" + board);
-        });
-        $("#newReply").submit(function(){
-          var board = $("#board4").val();
-          $(this).attr("action", "/api/replies/" + board);
-        });
-        $("#reportThread").submit(function(e){
-          var url = "/api/threads/"+$("#board2").val();
-          $.ajax({
-            type: "PUT",
-            url: url,
-            data: $(this).serialize(),
-            success: function(data)
-            {
-              alert(data);
-            }
-          });
-          e.preventDefault();
-        });
-        $("#deleteThread").submit(function(e){
-          var url = "/api/threads/"+$("#board3").val();
-          $.ajax({
-            type: "DELETE",
-            url: url,
-            data: $(this).serialize(),
-            success: function(data)
-            {
-              alert(data);
-            }
-          });
-          e.preventDefault();
-        });
-        $("#reportReply").submit(function(e){
-          var url = "/api/replies/"+$("#board5").val();
-          $.ajax({
-            type: "PUT",
-            url: url,
-            data: $(this).serialize(),
-            success: function(data)
-            {
-              alert(data);
-            }
-          });
-          e.preventDefault();
-        });
-        $("#deleteReply").submit(function(e){
-          var url = "/api/replies/"+$("#board6").val();
-          $.ajax({
-            type: "DELETE",
-            url: url,
-            data: $(this).serialize(),
-            success: function(data)
-            {
-              alert(data);
-            }
-          });
-          e.preventDefault();
-        });
-      });
-    </script>
+  <script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous" type="text/javascript"></script>  
+  <script src="/public/client.js" type="text/javascript"></script> 
 </body>
 </html>
